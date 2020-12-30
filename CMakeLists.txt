@@ -69,11 +69,40 @@ ament_target_dependencies(${PROJECT_NAME}_client
     "std_srvs"
     )
 
+
+##########INCLUSION####################
+add_executable(mylidar_node
+    src/mylidar.cpp)
+ament_target_dependencies(mylidar_node
+    "rclcpp"
+    "sensor_msgs"
+    "visualization_msgs"
+    "geometry_msgs"
+    "std_srvs"
+    )
+target_link_libraries(mylidar_node
+    ${YDLIDAR_SDK_LIBRARIES})
+
+#######SUBSCRIBER##################
+
+add_executable(mylidar_client
+    src/mylidar_client.cpp)
+ament_target_dependencies(mylidar_client
+    "rclcpp"
+    "sensor_msgs"
+    "visualization_msgs"
+    "geometry_msgs"
+    "std_srvs"
+    )
+target_link_libraries(mylidar_client
+    ${YDLIDAR_SDK_LIBRARIES})
+
+
 #---------------------------------------------------------------------------------------
 # Install
 #---------------------------------------------------------------------------------------
 install(TARGETS
-    ${PROJECT_NAME}_node ${PROJECT_NAME}_client
+    ${PROJECT_NAME}_node ${PROJECT_NAME}_client mylidar_node mylidar_client
     DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY launch params startup config
